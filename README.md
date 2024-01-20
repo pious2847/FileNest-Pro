@@ -72,7 +72,7 @@ This project is licensed under the MIT License.
 
 
 
-Make sure to replace placeholder values (e.g., `your-username`, `path/to/directory1`) with the actual values for your project. Additionally, update the `LICENSE` file if needed.
+Make sure to replace placeholder values (e.g., `@pious2847`, `path/to/directory1`) with the actual values for your project. Additionally, update the `LICENSE` file if needed.
 
 
 
