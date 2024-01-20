@@ -1,5 +1,0 @@
-input_directories: C:\Users\pious\Downloads, C:\Users\pious\OneDrive\Documents, C:\Users\pious\OneDrive\Desktop
-output_directory: C:\Users\pious\OneDrive\Desktop\Organized
-exclude_extensions: .lnk
-exclude_folders: Desktop Shortcuts
-schedule_times: 06:33,18:00

@@ -2,4 +2,4 @@ input_directories: C:\Users\pious\Downloads, C:\Users\pious\OneDrive\Documents, 
 output_directory: C:\Users\pious\OneDrive\Desktop\Organized
 exclude_extensions: .lnk
 exclude_folders: Desktop Shortcuts
-schedule_times: 06:55,18:00
+schedule_times: 08:58,18:00
