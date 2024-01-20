@@ -4,12 +4,14 @@ import shutil
 import schedule
 import time as sleep_time
 from pathlib import Path
-import ctypes
+from win10toast import ToastNotifier
 
 def hide_console():
+    import ctypes
     ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 0)
 
 def show_console():
+    import ctypes
     ctypes.windll.user32.ShowWindow(ctypes.windll.kernel32.GetConsoleWindow(), 1)
 
 def extract_names(file_path):
@@ -32,7 +34,7 @@ def is_in_excluded_folder(file_path, excluded_folders):
     parent_folder = Path(file_path).parent.name
     return parent_folder in excluded_folders
 
-def organize_files(input_directories, output_directory, exclude_extensions, exclude_folders):
+def organize_files(input_directories, output_directory, exclude_extensions, exclude_folders, toaster):
     # Create output directory if it doesn't exist
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
@@ -65,12 +67,12 @@ def organize_files(input_directories, output_directory, exclude_extensions, excl
             else:
                 print(f"Skipped {file_path}")
 
-    # If no files are found for organization, hide the console
-    if not files_found:
-        hide_console()
-        print("No files found for organization. Hiding console until the next scheduled run.")
+    # Show toast notification
+    if files_found:
+        toaster.show_toast("File Organizer", "Files organized successfully!", duration=5)
     else:
-        show_console()
+        toaster.show_toast("File Organizer", "No files found for organization.", duration=5)
+        hide_console()
 
 def get_file_type(file_path):
     # Mapping file extensions to file types
@@ -176,6 +178,9 @@ exclude_extensions = config['exclude_extensions']
 exclude_folders = config['exclude_folders']
 schedule_times = config['schedule_times']
 
+# Set up toaster for toast notifications
+toaster = ToastNotifier()
+
 # Schedule the job to run at the specified times
 for time in schedule_times:
     schedule.every().day.at(time).do(
@@ -183,10 +188,12 @@ for time in schedule_times:
         input_directories=input_directories,
         output_directory=output_directory,
         exclude_extensions=exclude_extensions,
-        exclude_folders=exclude_folders
+        exclude_folders=exclude_folders,
+        toaster=toaster
     )
 
 # Run the scheduled jobs
 while True:
     schedule.run_pending()
     sleep_time.sleep(1)
+    show_console()  # Show console after each check to ensure it's visible if there's any output
